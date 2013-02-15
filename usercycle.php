@@ -201,9 +201,13 @@ class Usercycle
 
     protected function log_send($msg) { $this->log('send',$msg); }
 
-    protected function log_error($msg)
+    protected function log_error($msg, $to_stderr = true)
     {
-        $this->log('error', '[' . time() . '] ' . $msg);
+        $error_msg = '[' . time() . '] ' . $msg;
+        $this->log('error', $error_msg);
+        if($to_stderr) {
+            error_log($error_msg);
+        }
     }
 
     protected function log($type, $msg)
