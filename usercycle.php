@@ -42,17 +42,17 @@ class Usercycle
         return static::$protocol . '://' . $host . '/api/v' . static::$version;
     }
 
-    public function create($identity, $action, $properties = array(), $ocurred_at = null)
+    public function create($identity, $action, $properties = array(), $occurred_at = null)
     {
-        $ocurred_at = $ocurred_at ?: time();
-        $ocurred_at = strftime('%Y-%m-%d %H:%M:%S UTC', $ocurred_at);
+        $occurred_at = $occurred_at ?: time();
+        $occurred_at = strftime('%Y-%m-%d %H:%M:%S UTC', $occurred_at);
         try
         {
             $params = array (
                 'uid' => $identity,
                 'action_name' => $action,
                 'properties' => $properties,
-                'ocurred_at' => $ocurred_at,
+                'occurred_at' => $occurred_at,
             );
             $this->process_event('POST', '/events.json', $params);
         }
