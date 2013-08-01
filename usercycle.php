@@ -94,6 +94,7 @@ class Usercycle
     protected function send_event($method, $url, $data)
     {
         $curl = null;
+        $data_query = http_build_query($data);
         try
         {
             $curl = curl_init();
@@ -111,7 +112,7 @@ class Usercycle
                 CURLOPT_TIMEOUT => 40,
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_POST => strtoupper($method) == 'POST',
-                CURLOPT_POSTFIELDS => http_build_query($data),
+                CURLOPT_POSTFIELDS => $data_query,
             ));
 
             $result = curl_exec($curl);
@@ -131,6 +132,7 @@ class Usercycle
         if($error || $http_status < 200 || $http_status >= 300)
         {
             $msg = isset(static::$http_header_messages[$http_status]) ? static::$http_header_messages[$http_status] : $error;
+            $msg .= "($method $url - $data_query)";
             $this->log_error($msg);
         }
         return json_decode($result);
