@@ -50,7 +50,8 @@ class Usercycle
         {
             $params = array (
                 'uid' => $identity,
-                'action_name' => $action,
+                //As Usercycle uses MongoDB . and $ are not allowed in the action name
+                'action_name' => preg_replace('/[\\.\\$]/', '/', $action),
                 'properties' => $properties,
                 'occurred_at' => $occurred_at,
             );
